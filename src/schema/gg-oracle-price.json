@@ -1,0 +1,697 @@
+{
+  "contract_name": "gg-oracle-price",
+  "contract_version": "0.1.0",
+  "idl_version": "1.0.0",
+  "instantiate": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "InstantiateMsg",
+    "type": "object",
+    "required": [
+      "price_deviation_threshold",
+      "supported_tokens",
+      "whitelisted_updaters"
+    ],
+    "properties": {
+      "admin": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "owner": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "price_deviation_threshold": {
+        "$ref": "#/definitions/Decimal"
+      },
+      "supported_tokens": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "whitelisted_updaters": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false,
+    "definitions": {
+      "Decimal": {
+        "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+        "type": "string"
+      }
+    }
+  },
+  "execute": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "ExecuteMsg",
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "update_owner"
+        ],
+        "properties": {
+          "update_owner": {
+            "type": "object",
+            "required": [
+              "new_owner"
+            ],
+            "properties": {
+              "new_owner": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "update_admin"
+        ],
+        "properties": {
+          "update_admin": {
+            "type": "object",
+            "required": [
+              "new_admin"
+            ],
+            "properties": {
+              "new_admin": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "set_deviation_threshold"
+        ],
+        "properties": {
+          "set_deviation_threshold": {
+            "type": "object",
+            "required": [
+              "threshold"
+            ],
+            "properties": {
+              "threshold": {
+                "$ref": "#/definitions/Decimal"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "add_whitelisted_updater"
+        ],
+        "properties": {
+          "add_whitelisted_updater": {
+            "type": "object",
+            "required": [
+              "updater"
+            ],
+            "properties": {
+              "updater": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "remove_whitelisted_updater"
+        ],
+        "properties": {
+          "remove_whitelisted_updater": {
+            "type": "object",
+            "required": [
+              "updater"
+            ],
+            "properties": {
+              "updater": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "add_supported_token"
+        ],
+        "properties": {
+          "add_supported_token": {
+            "type": "object",
+            "required": [
+              "token_id"
+            ],
+            "properties": {
+              "token_id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "remove_supported_token"
+        ],
+        "properties": {
+          "remove_supported_token": {
+            "type": "object",
+            "required": [
+              "token_id"
+            ],
+            "properties": {
+              "token_id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "update_prices"
+        ],
+        "properties": {
+          "update_prices": {
+            "type": "object",
+            "required": [
+              "price_data"
+            ],
+            "properties": {
+              "price_data": {
+                "$ref": "#/definitions/PriceData"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "update_single_price"
+        ],
+        "properties": {
+          "update_single_price": {
+            "type": "object",
+            "required": [
+              "price_info",
+              "token_id"
+            ],
+            "properties": {
+              "price_info": {
+                "$ref": "#/definitions/TokenPriceInfo"
+              },
+              "token_id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "approve_price"
+        ],
+        "properties": {
+          "approve_price": {
+            "type": "object",
+            "required": [
+              "price",
+              "token_id"
+            ],
+            "properties": {
+              "price": {
+                "$ref": "#/definitions/Decimal"
+              },
+              "token_id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "reject_price"
+        ],
+        "properties": {
+          "reject_price": {
+            "type": "object",
+            "required": [
+              "token_id"
+            ],
+            "properties": {
+              "token_id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    ],
+    "definitions": {
+      "Decimal": {
+        "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+        "type": "string"
+      },
+      "PriceData": {
+        "type": "object",
+        "required": [
+          "prices"
+        ],
+        "properties": {
+          "prices": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "TokenPriceInfo": {
+        "type": "object",
+        "required": [
+          "usd"
+        ],
+        "properties": {
+          "usd": {
+            "$ref": "#/definitions/Decimal"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "query": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "QueryMsg",
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "config"
+        ],
+        "properties": {
+          "config": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "token_price"
+        ],
+        "properties": {
+          "token_price": {
+            "type": "object",
+            "required": [
+              "token_id"
+            ],
+            "properties": {
+              "token_id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "all_prices"
+        ],
+        "properties": {
+          "all_prices": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "price_history"
+        ],
+        "properties": {
+          "price_history": {
+            "type": "object",
+            "required": [
+              "token_id"
+            ],
+            "properties": {
+              "end_time": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint64",
+                "minimum": 0.0
+              },
+              "limit": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0.0
+              },
+              "start_time": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint64",
+                "minimum": 0.0
+              },
+              "token_id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "pending_updates"
+        ],
+        "properties": {
+          "pending_updates": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "supported_tokens"
+        ],
+        "properties": {
+          "supported_tokens": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "whitelisted_updaters"
+        ],
+        "properties": {
+          "whitelisted_updaters": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "migrate": null,
+  "sudo": null,
+  "responses": {
+    "all_prices": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AllPricesResponse",
+      "type": "object",
+      "required": [
+        "prices"
+      ],
+      "properties": {
+        "prices": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Decimal": {
+          "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+          "type": "string"
+        },
+        "TokenPrice": {
+          "type": "object",
+          "required": [
+            "last_updated",
+            "usd"
+          ],
+          "properties": {
+            "last_updated": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "usd": {
+              "$ref": "#/definitions/Decimal"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "config": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ConfigResponse",
+      "type": "object",
+      "required": [
+        "admin",
+        "owner",
+        "price_deviation_threshold"
+      ],
+      "properties": {
+        "admin": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "price_deviation_threshold": {
+          "$ref": "#/definitions/Decimal"
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Decimal": {
+          "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+          "type": "string"
+        }
+      }
+    },
+    "pending_updates": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PendingUpdatesResponse",
+      "type": "object",
+      "required": [
+        "updates"
+      ],
+      "properties": {
+        "updates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PendingUpdate"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Decimal": {
+          "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+          "type": "string"
+        },
+        "PendingUpdate": {
+          "type": "object",
+          "required": [
+            "current_price",
+            "new_price",
+            "percent_change",
+            "requested_at",
+            "token_id"
+          ],
+          "properties": {
+            "current_price": {
+              "$ref": "#/definitions/Decimal"
+            },
+            "new_price": {
+              "$ref": "#/definitions/Decimal"
+            },
+            "percent_change": {
+              "$ref": "#/definitions/Decimal"
+            },
+            "requested_at": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "token_id": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "price_history": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PriceHistoryResponse",
+      "type": "object",
+      "required": [
+        "history",
+        "token_id"
+      ],
+      "properties": {
+        "history": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PriceHistoryEntry"
+          }
+        },
+        "token_id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Decimal": {
+          "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+          "type": "string"
+        },
+        "PriceHistoryEntry": {
+          "type": "object",
+          "required": [
+            "price",
+            "timestamp"
+          ],
+          "properties": {
+            "price": {
+              "$ref": "#/definitions/Decimal"
+            },
+            "timestamp": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "supported_tokens": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SupportedTokensResponse",
+      "type": "object",
+      "required": [
+        "tokens"
+      ],
+      "properties": {
+        "tokens": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "token_price": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TokenPriceResponse",
+      "type": "object",
+      "required": [
+        "last_updated",
+        "price",
+        "token_id"
+      ],
+      "properties": {
+        "last_updated": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "price": {
+          "$ref": "#/definitions/Decimal"
+        },
+        "token_id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Decimal": {
+          "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+          "type": "string"
+        }
+      }
+    },
+    "whitelisted_updaters": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "WhitelistedUpdatersResponse",
+      "type": "object",
+      "required": [
+        "updaters"
+      ],
+      "properties": {
+        "updaters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

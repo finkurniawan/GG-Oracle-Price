@@ -1,0 +1,276 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ExecuteMsg",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "update_owner"
+      ],
+      "properties": {
+        "update_owner": {
+          "type": "object",
+          "required": [
+            "new_owner"
+          ],
+          "properties": {
+            "new_owner": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "update_admin"
+      ],
+      "properties": {
+        "update_admin": {
+          "type": "object",
+          "required": [
+            "new_admin"
+          ],
+          "properties": {
+            "new_admin": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "set_deviation_threshold"
+      ],
+      "properties": {
+        "set_deviation_threshold": {
+          "type": "object",
+          "required": [
+            "threshold"
+          ],
+          "properties": {
+            "threshold": {
+              "$ref": "#/definitions/Decimal"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "add_whitelisted_updater"
+      ],
+      "properties": {
+        "add_whitelisted_updater": {
+          "type": "object",
+          "required": [
+            "updater"
+          ],
+          "properties": {
+            "updater": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "remove_whitelisted_updater"
+      ],
+      "properties": {
+        "remove_whitelisted_updater": {
+          "type": "object",
+          "required": [
+            "updater"
+          ],
+          "properties": {
+            "updater": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "add_supported_token"
+      ],
+      "properties": {
+        "add_supported_token": {
+          "type": "object",
+          "required": [
+            "token_id"
+          ],
+          "properties": {
+            "token_id": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "remove_supported_token"
+      ],
+      "properties": {
+        "remove_supported_token": {
+          "type": "object",
+          "required": [
+            "token_id"
+          ],
+          "properties": {
+            "token_id": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "update_prices"
+      ],
+      "properties": {
+        "update_prices": {
+          "type": "object",
+          "required": [
+            "price_data"
+          ],
+          "properties": {
+            "price_data": {
+              "$ref": "#/definitions/PriceData"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "update_single_price"
+      ],
+      "properties": {
+        "update_single_price": {
+          "type": "object",
+          "required": [
+            "price_info",
+            "token_id"
+          ],
+          "properties": {
+            "price_info": {
+              "$ref": "#/definitions/TokenPriceInfo"
+            },
+            "token_id": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "approve_price"
+      ],
+      "properties": {
+        "approve_price": {
+          "type": "object",
+          "required": [
+            "price",
+            "token_id"
+          ],
+          "properties": {
+            "price": {
+              "$ref": "#/definitions/Decimal"
+            },
+            "token_id": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "reject_price"
+      ],
+      "properties": {
+        "reject_price": {
+          "type": "object",
+          "required": [
+            "token_id"
+          ],
+          "properties": {
+            "token_id": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "definitions": {
+    "Decimal": {
+      "description": "A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0\n\nThe greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)",
+      "type": "string"
+    },
+    "PriceData": {
+      "type": "object",
+      "required": [
+        "prices"
+      ],
+      "properties": {
+        "prices": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "TokenPriceInfo": {
+      "type": "object",
+      "required": [
+        "usd"
+      ],
+      "properties": {
+        "usd": {
+          "$ref": "#/definitions/Decimal"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
